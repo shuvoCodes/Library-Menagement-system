@@ -37,10 +37,7 @@ user_dependancy = Annotated[Session, Depends(get_current_user)]
 
 
 @app.get('/books/all')
-def all_books(user : user_dependancy,db:db_dependency):
-    if user is None: 
-        raise HTTPException(status_code=404, detail= 'Failed Authentication')
-    
+def all_books(db:db_dependency):   
     return db.query(Books).all()
 
 @app.get('/books/{book_id}')
