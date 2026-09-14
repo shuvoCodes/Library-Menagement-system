@@ -137,3 +137,24 @@ def update_password(user: user_dependancey, db : db_dependancey, update_pass : U
     db.add(user)
     db.commit()
     return JSONResponse(status_code=200, content= {'Message' : 'Password Update Sucessfully'})
+
+
+@route.get('/user')
+def get_user(user: user_dependancey ,db: db_dependancey):
+    if user is None:
+        raise HTTPException(status_code=404, detail='Failed Authentication')
+
+    curret_user = db.query(Users).filter(Users.id == user.get('user_id')).first()
+
+    if curret_user is None:
+        raise HTTPException(status_code=404, detail='User Not Found')
+
+    return{
+    'id' : curret_user.id,
+    'email' : curret_user.email,
+    'username'  : curret_user.username,
+    'fastname'  : curret_user.fastname,
+    'lastname'  : curret_user.lastname,
+    'is_active'  : curret_user.is_active,
+    'role'  : curret_user.role
+    }
