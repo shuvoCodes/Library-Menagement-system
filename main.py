@@ -50,6 +50,16 @@ def secific_books(user : user_dependancy,db:db_dependency, book_id : int):
              raise HTTPException(status_code=404, detail= 'Book Not Found')
     return find
 
+@app.get('/reserve/my')
+def my_resvered_books(user : user_dependancy,db:db_dependency):
+    if user is None: 
+        raise HTTPException(status_code=404, detail= 'Failed Authentication')
+
+    find = db.query(Reservations).filter(Reservations.user_id == user.get('id')).all()
+    if find is None: 
+         raise HTTPException(status_code=404, detail= 'Reservation Not Found')
+
+    return find
 
 @app.get('/reserve/{book_id}')
 def reserved_books(user : user_dependancy,db:db_dependency, book_id : int):
@@ -86,16 +96,7 @@ def reserved_cencel_books(user : user_dependancy,db:db_dependency, reservation_i
     return JSONResponse(status_code=201, content={'Message' : 'Reservation Cencelled Sucessfully.'})
 
 
-@app.get('/reserve/my')
-def my_resvered_books(user : user_dependancy,db:db_dependency):
-    if user is None: 
-        raise HTTPException(status_code=404, detail= 'Failed Authentication')
 
-    find = db.query(Reservations).filter(Reservations.user_id == user.get('id')).all()
-    if find is None: 
-         raise HTTPException(status_code=404, detail= 'Reservation Not Found')
-
-    return find
 
 @app.get('/issue/my')
 def my_issued_books(user : user_dependancy,db:db_dependency):
