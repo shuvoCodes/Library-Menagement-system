@@ -64,7 +64,7 @@ def get_current_user(token: Annotated[str, Depends(OAuth2_bearer)]):
         role : str = pyload.get('role')
         if username is None or user_id is None:
             raise HTTPException(status_code= 404, detail= 'User Not Found.')
-        return {'username' : username, 'user_id' : user_id, 'role' : role}
+        return {'username' : username, 'id' : user_id, 'role' : role}
     except:
         raise HTTPException(status_code= 404, detail= 'User Not Found.')
 
