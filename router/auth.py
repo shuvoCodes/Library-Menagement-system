@@ -113,7 +113,7 @@ def update_user(user: user_dependancey,db: db_dependancey, update_info: UpdateUs
     if user is None:
         raise HTTPException(status_code= 404, detail='Failed Authentication')
     
-    find = db.query(Users).filter(Users.id == user.get('user_id')). first()
+    find = db.query(Users).filter(Users.id == user.get('id')). first()
     update = update_info.model_dump(exclude_unset= True)
 
     for key,value in update.items():
@@ -128,7 +128,7 @@ def update_password(user: user_dependancey, db : db_dependancey, update_pass : U
     if user is None:
         raise HTTPException(status_code= 404, detail='Failed Authentication')
 
-    find = db.query(Users).filter(Users.id == user.get('user_id')).first()
+    find = db.query(Users).filter(Users.id == user.get('id')).first()
 
     if not bcrypt_context.verify(update_pass.current_password,find.hash_password):
         raise HTTPException(status_code= 401, detail='Wrong Password')
@@ -144,7 +144,7 @@ def get_user(user: user_dependancey ,db: db_dependancey):
     if user is None:
         raise HTTPException(status_code=404, detail='Failed Authentication')
 
-    curret_user = db.query(Users).filter(Users.id == user.get('user_id')).first()
+    curret_user = db.query(Users).filter(Users.id == user.get('id')).first()
 
     if curret_user is None:
         raise HTTPException(status_code=404, detail='User Not Found')
