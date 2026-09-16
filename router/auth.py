@@ -77,7 +77,7 @@ def get_db():
         db.close()
 
 db_dependancey = Annotated[Session,Depends(get_db)]
-user_dependancey = Annotated[Session, Depends(get_current_user)]
+user_dependancey = Annotated[dict, Depends(get_current_user)]
 @route.post('/creatuser')
 def create_user(db : db_dependancey, new_user: CreateUser):
     user_model = Users(
