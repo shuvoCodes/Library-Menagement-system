@@ -33,7 +33,7 @@ def get_db():
         db.close()
 
 db_dependency = Annotated[Session,Depends(get_db)]
-user_dependancy = Annotated[Session, Depends(get_current_user)]
+user_dependancy = Annotated[dict, Depends(get_current_user)]
 
 
 @app.get('/books/all')
