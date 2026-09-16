@@ -134,7 +134,7 @@ def update_password(user: user_dependancey, db : db_dependancey, update_pass : U
         raise HTTPException(status_code= 401, detail='Wrong Password')
 
     find.hash_password = bcrypt_context.hash(update_pass.new_password)
-    db.add(user)
+    db.add(find)
     db.commit()
     return JSONResponse(status_code=200, content= {'Message' : 'Password Update Sucessfully'})
 
